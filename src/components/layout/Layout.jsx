@@ -13,25 +13,25 @@ const Layout = () => {
         </div>
         <div className="navbar-links">
           <p>
-            <Link className="link" to="/home">
+            <Link className="link" to="/">
               Home
             </Link>
           </p>
           <p></p>
-          <Link className="link" to="/home">
+          <Link className="link" to="/shop">
             Shop
           </Link>
           <p></p>
-          <Link className="link" to="/home">
+          <Link className="link" to="/">
             About
           </Link>
           <p>
-            <Link className="link" to="/home">
+            <Link className="link" to="/">
               Cart
             </Link>
           </p>
           <p>
-            <Link className="link" to="/home">
+            <Link className="link" to="/">
               Sign In
             </Link>
           </p>
@@ -39,6 +39,16 @@ const Layout = () => {
       </div>
 
       <Outlet />
+      <br />
+
+      <div className="footer">
+        <img src={logo} />
+        <div>
+          <h2>BOOKWORM</h2>
+          <p>Address: District 10, HCM</p>
+          <p>Phone: 0347145232</p>
+        </div>
+      </div>
     </div>
   );
 };
