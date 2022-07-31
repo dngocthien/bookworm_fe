@@ -46,11 +46,11 @@ const Home = () => {
     ],
   };
   useEffect(() => {
-    fetch(DB_URL + "books")
+    fetch(DB_URL + "books?page=1&show=8&filter=0&type=0")
       .then((res) => res.json())
       .then((result) => {
-        setBooks(result);
-        setOnsale(result);
+        setBooks(result.books);
+        setOnsale(result.books);
       });
   }, []);
   return (
@@ -64,15 +64,19 @@ const Home = () => {
       </div>
 
       <Slider {...settings2}>
-        {onsale.slice(0, 8).map((b, index) => {
-          return <Book key={index} book={b} />;
-        })}
+        {onsale.length > 0 ? (
+          onsale.map((b, index) => {
+            return <Book key={index} book={b} />;
+          })
+        ) : (
+          <></>
+        )}
       </Slider>
 
       <br />
       <br />
 
-      <div className="frame-center">
+      <div className="frame-text_center">
         <h1>Featured Books</h1>
         <div>
           <button
@@ -93,9 +97,13 @@ const Home = () => {
       <br />
 
       <div className="content">
-        {books.slice(0, 8).map((b, index) => {
-          return <Book key={index} book={b} />;
-        })}
+        {books.length > 0 ? (
+          books.map((b, index) => {
+            return <Book key={index} book={b} />;
+          })
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

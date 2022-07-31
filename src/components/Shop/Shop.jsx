@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Pagination } from "react-bootstrap";
 import Select from "react-select";
 import Book from "../Book/Book";
 import { DB_URL } from "../../constants";
@@ -8,12 +9,14 @@ const Shop = () => {
   const [categories, setCategories] = useState([]);
   const [authors, setAuthors] = useState([]);
 
-  const [url, setUrl] = useState("books");
-  const [filter, setFilter] = useState("");
-
-  const [show, setShow] = useState(15);
-  const [page, setPage] = useState(1);
+  const [filterName, setFilterName] = useState("");
+  const [filterId, setFilterId] = useState(0);
+  const [filterType, setFilterType] = useState(0);
+  const [sort, setSort] = useState("");
+  const [show, setShow] = useState(5);
+  const [page, setPage] = useState(0);
   const [totalPage, setTotalPage] = useState(1);
+  const [totalBook, setTotalBook] = useState(1);
 
   const rating = [
     { label: "1 Star", value: 1 },
@@ -35,6 +38,19 @@ const Shop = () => {
     { label: "Show 25", value: 25 },
   ];
 
+  let items = [];
+  for (let number = 0; number <= totalPage; number++) {
+    items.push(
+      <Pagination.Item
+        key={number}
+        active={number === page}
+        onClick={() => setPage(number)}
+      >
+        {number + 1}
+      </Pagination.Item>
+    );
+  }
+
   useEffect(() => {
     fetch(DB_URL + "categories")
       .then((res) => res.json())
@@ -45,25 +61,35 @@ const Shop = () => {
       .then((res) => res.json())
       .then((result) => {
         setAuthors(result);
-        console.log(result);
       });
   }, []);
   useEffect(() => {
+    let url =
+      "books?page=" +
+      page +
+      "&show=" +
+      show +
+      "&filter=" +
+      filterId +
+      "&type=" +
+      filterType;
+    if (sort != "") {
+      url = url + "&sort=" + sort;
+    }
     fetch(DB_URL + url)
       .then((res) => res.json())
       .then((result) => {
-        setBooks(result);
+        setBooks(result.books);
+        setTotalPage(result.totalPage);
+        setTotalBook(result.totalBook);
       });
-  }, [url]);
+  }, [filterId, sort, show, page]);
 
-  // const changePage = () => {
-  //   setUrl("books/page?page=1&show=5")
-  // };
   return (
     <div className="outlet">
       <div className="frame-start">
         <h1>Books</h1>
-        {url != "books" ? <p>(Filter by {filter})</p> : <></>}
+        {filterName != "" ? <p>(Filter by {filterName})</p> : <></>}
       </div>
 
       <hr />
@@ -78,9 +104,12 @@ const Shop = () => {
               return (
                 <p
                   key={index}
-                  onClick={() =>
-                    setUrl("books/category/" + c.id, setFilter(c.categoryName))
-                  }
+                  onClick={() => (
+                    setFilterName(c.categoryName),
+                    setFilterId(c.id),
+                    setFilterType(1),
+                    setPage(0)
+                  )}
                 >
                   {c.categoryName}
                 </p>
@@ -93,9 +122,12 @@ const Shop = () => {
               return (
                 <p
                   key={index}
-                  onClick={() =>
-                    setUrl("books/author/" + a.id, setFilter(a.authorName))
-                  }
+                  onClick={() => (
+                    setFilterName(a.authorName),
+                    setFilterId(a.id),
+                    setFilterType(2),
+                    setPage(0)
+                  )}
                 >
                   {a.authorName}
                 </p>
@@ -105,14 +137,17 @@ const Shop = () => {
           <div className="border">
             <h4>Rating Review</h4>
             {rating.map((r, index) => {
-              return <p>{r.label}</p>;
+              return <p key={index}>{r.label}</p>;
             })}
           </div>
         </div>
 
         <div className="main">
           <div className="frame-space">
-            <p>Showing ...</p>
+            <p>
+              Showing {page * show + 1}-{page * show + books.length} of{" "}
+              {totalBook}
+            </p>
             <div className="frame-start">
               <Select
                 className="select"
@@ -123,8 +158,8 @@ const Shop = () => {
               <Select
                 className="select"
                 options={shows}
-                placeholder="Show 15"
-                onChange={(e) => setShow(e.value)}
+                placeholder="Show 5"
+                onChange={(e) => (setShow(e.value), setPage(0))}
               />
             </div>
           </div>
@@ -139,6 +174,20 @@ const Shop = () => {
             ) : (
               <>...</>
             )}
+          </div>
+
+          <br />
+
+          <div className="frame-center">
+            <Pagination>
+              <Pagination.Prev
+                onClick={() => setPage(page > 0 ? page - 1 : page)}
+              />
+              {items}
+              <Pagination.Next
+                onClick={() => setPage(page < totalPage ? page + 1 : page)}
+              />
+            </Pagination>
           </div>
         </div>
       </div>
