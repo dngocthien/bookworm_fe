@@ -73,6 +73,9 @@
 .column-left{
     padding-right: 2rem;
 }
+.column-right{
+    padding-right: 2rem;
+}
 .content{
     flex: 1;
     display: grid;
@@ -139,6 +142,17 @@
     cursor: pointer;
 }
 
+input{
+    border: 1px solid var(--light);
+    border-radius: 5px;
+    padding: 0 0.5rem;
+}
+textarea{
+    border: 1px solid var(--light);
+    border-radius: 5px;
+    padding: 0 0.5rem;
+}
+
 .layout h1{
     font-size: 22px;
     font-weight: 700;
@@ -176,16 +190,25 @@
 }
 
 @media screen and (max-width:1370px) {
+    .outlet{
+        padding: 1rem 3rem;
+    }
     .content{
         grid-template-columns: repeat(3, 1fr)
     };
 }
 @media screen and (max-width:860px) {
+    .outlet{
+        padding: 1rem 2rem;
+    }
     .content{
         grid-template-columns: repeat(2, 1fr)
     };
 }
 @media screen and (max-width:580px) {
+    .outlet{
+        padding: 1rem 1rem;
+    }
     .content{
         grid-template-columns: repeat(1, 1fr)
     };

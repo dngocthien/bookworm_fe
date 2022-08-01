@@ -1,9 +1,10 @@
 .frame-big{
     display: flex;
-    width: 60%;
+    width: 65%;
     border: 1px solid var(--light);
     border-radius: 10px;
     margin-right: 2rem;
+    padding-bottom: 1rem;
 }
 .frame-big img{
     width: 250px;
@@ -17,9 +18,10 @@
 }
 
 .frame-small{
-    width: 40%;
+    width: 35%;
     border: 1px solid var(--light);
     border-radius: 10px;
+    /* height:18rem; */
 }
 .frame-small-head{
     background-color: var(--light2);
@@ -39,7 +41,6 @@
 
 .quantity{
     display: flex;
-    border: 1px solid var(--light);
     background-color: var(--light2);
     line-height: 32px;
     margin-top: 0.5rem;
@@ -52,10 +53,62 @@
     font-size: 26px;
 }
 .quantity-add{
-    border: 1px solid var(--light);
     background-color: var(--light2);
     line-height: 32px;
     margin: 1rem 0;
     text-align: center;
     font-weight: 700;
+    cursor: pointer;
+}
+
+.reviews .frame-big{
+    padding: 1rem 2rem;
+}
+.reviews .frame-small input{
+    width: 100%;
+}
+.reviews .frame-small textarea{
+    width: 100%;
+}
+.reviews .frame-small h3{
+    margin: 1rem;
+}
+.reviews .frame-small p{
+    margin-bottom: 0.5rem;
+}
+.reviews .frame-small-body{
+    padding: 0 1rem;
+}
+.reviews .frame-small-footer{
+    margin: 0 2rem 1rem 2rem;
+    text-align: center;
+}
+.reviews .frame-small-footer p{
+    background-color: var(--light2);
+    padding: 0.5rem 2rem;
+    cursor: pointer;
+}
+
+@media screen and (max-width:900px) {
+    .shop .frame-flex{
+        display: block;
+        margin-bottom: 1rem;
+    }
+    .frame-big{
+        width: 100%;
+    }
+    .frame-small{
+        width: 100%;
+    }
+}
+@media screen and (max-width:700px) {
+    .frame-big{
+        flex-direction: column;
+    }
+    .details .column-left{
+        text-align: left;
+    }
+    .details .column-right{
+        margin-left: 2rem;
+    }
 }
