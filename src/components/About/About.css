@@ -1,0 +1,9 @@
+.frame-80{
+    width: 60%;
+}
+
+@media screen and (max-width: 1124px) {
+    .frame-80{
+        width: 80%;
+    }
+}

@@ -57,7 +57,7 @@ const Home = () => {
     <div className="outlet">
       <br />
       <div className="frame-space">
-        <h1>On Sale</h1>
+        <h2>On Sale</h2>
         <button className="btn-grey" onClick={() => navigate("/shop")}>
           View All &#9654;
         </button>
@@ -75,9 +75,11 @@ const Home = () => {
 
       <br />
       <br />
+      <br />
 
       <div className="frame-text_center">
-        <h1>Featured Books</h1>
+        <h2>Featured Books</h2>
+        <br />
         <div>
           <button
             className={recomended ? "btn-light" : "btn-white"}

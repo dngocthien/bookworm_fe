@@ -32,14 +32,22 @@
     color: inherit;
     text-decoration: inherit;
 }
+.link :hover{
+    color: var(--grey);
+}
 .outlet{
-    padding: 1rem 3rem;
+    padding: 1rem 4rem;
+    min-height: 80vh;
 }
 
 .frame-space{
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+.frame-flex{
+    display: flex;
+    justify-content: space-between;
 }
 .frame-text_center{
     text-align: center;
@@ -52,13 +60,18 @@
 .frame-start{
     display: flex;
     justify-content: flex-start;
-    align-items: baseline;
 }
 .frame-start .select{
     margin-left: 1rem;
 }
-.frame-start h1{
+.layout .frame-start h1{
     margin-right: 0.5rem;
+}
+.column{
+    flex: 50%;
+}
+.column-left{
+    padding-right: 2rem;
 }
 .content{
     flex: 1;
@@ -79,11 +92,6 @@
     border-radius: 5px;
     margin-top: 1rem;
     padding: 1rem;
-}
-.border p{
-    margin: 0.5rem 0 0 0.5rem;
-    color: var(--grey);
-    cursor: pointer;
 }
 .footer{
     background-color: var(--light2);
@@ -132,11 +140,12 @@
 }
 
 .layout h1{
-    font-size: 24px;
-    font-weight: 500;
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0;
 }
 .layout h2{
-    font-size: 22px;
+    font-size: 26px;
     font-weight: 400;
     margin: 0;
 }
@@ -146,10 +155,24 @@
     margin: 0;
 }
 .layout h4{
+    font-size: 20px;
+    font-weight: 600;
     margin: 0;
 }
 .layout p{
     margin: 0;
+}
+.layout .border p{
+    margin-top: 0.5rem;
+    margin-left: 0.5rem;
+    color: var(--grey);
+    cursor: pointer;
+}
+.text-right{
+    text-align: right;
+}
+.text-center{
+    text-align: center;
 }
 
 @media screen and (max-width:1370px) {

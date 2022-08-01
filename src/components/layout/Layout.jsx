@@ -22,7 +22,7 @@ const Layout = () => {
             Shop
           </Link>
           <p></p>
-          <Link className="link" to="/">
+          <Link className="link" to="/about">
             About
           </Link>
           <p>
