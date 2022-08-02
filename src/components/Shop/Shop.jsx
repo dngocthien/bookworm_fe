@@ -172,7 +172,7 @@ const Shop = () => {
                 return <Book key={index} book={b} />;
               })
             ) : (
-              <>...</>
+              <p>No books available.</p>
             )}
           </div>
 

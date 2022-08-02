@@ -60,6 +60,7 @@
 .frame-start{
     display: flex;
     justify-content: flex-start;
+    align-items: baseline;
 }
 .frame-start .select{
     margin-left: 1rem;

@@ -3,11 +3,16 @@ import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import { DB_URL } from "../../constants";
 import "./Detail.css";
+import Review from "../Book/Review";
 
 const Detail = () => {
   let { id } = useParams();
   const [book, setBook] = useState(null);
   const [quantity, setQuantity] = useState(1);
+
+  const [reviewPage, setReviewPage] = useState(null);
+  const [page, setPage] = useState(0);
+  const [show, setShow] = useState(5);
 
   const [reviewTitle, setReviewTitle] = useState("");
   const [reviewDetails, setReviewDetails] = useState("");
@@ -26,7 +31,38 @@ const Detail = () => {
       .then((result) => {
         setBook(result);
       });
+
+    let url = "reviews?id=" + id + "&page=" + page + "&show=" + show;
+    fetch(DB_URL + url)
+      .then((res) => res.json())
+      .then((result) => {
+        setReviewPage(result);
+        console.log(result);
+      });
   }, []);
+
+  const postReview = () => {
+    const current = new Date();
+    const dto = {
+      id: null,
+      bookId: id,
+      reviewTitle: reviewTitle,
+      reviewDetails: reviewDetails,
+      reviewDate: current,
+      ratingStart: star,
+    };
+    fetch(DB_URL + "reviews", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dto),
+    }).then(
+      () => (
+        setReviewTitle(""),
+        setReviewDetails(""),
+        alert("Your review was posted!")
+      )
+    );
+  };
   return (
     <div className="outlet shop">
       {book != null ? (
@@ -45,7 +81,6 @@ const Detail = () => {
                 <p>{book.bookSummary}</p>
               </div>
             </div>
-
             <br />
 
             <div className="frame-small">
@@ -74,33 +109,57 @@ const Detail = () => {
                   </p>
                 </div>
 
-                <div className="quantity-add">Add to cart</div>
+                <div className="btn-post">Add to cart</div>
               </div>
             </div>
           </div>
-
           <br />
 
           <div className="frame-flex reviews">
             <div className="frame-big">
-              <h3>Customer Reviews</h3>
+              <h1>Customer Reviews</h1>
+              {reviewPage != null && reviewPage.reviews.length > 0 ? (
+                <div>
+                  <h3>{reviewPage.star} Star</h3>
+                  <p>
+                    5 star ({reviewPage.five}) | 4 star ({reviewPage.four}) | 3
+                    star ({reviewPage.three}) | 2 star ({reviewPage.two}) | 1
+                    star ({reviewPage.one})
+                  </p>
+                  <p>
+                    Showing {page * show + 1}-
+                    {page * show + reviewPage.reviews.length} of{" "}
+                    {reviewPage.totalReview}{" "}
+                  </p>
+
+                  {reviewPage.reviews.map((r, index) => {
+                    return <Review key={index} review={r} />;
+                  })}
+                </div>
+              ) : (
+                <p>No review available.</p>
+              )}
             </div>
             <br />
+
             <div className="frame-small">
               <h3>Write a review</h3>
               <hr />
-
               <div className="frame-small-body">
-                <p>Add a titile</p>
-                <input onChange={(e) => setReviewTitle(e.target.value)} />
+                <p>Add a title</p>
+                <input
+                  value={reviewTitle}
+                  onChange={(e) => setReviewTitle(e.target.value)}
+                />
                 <br />
                 <br />
-
                 <p>Details please! Your review helps other shopers.</p>
-                <textarea onChange={(e) => setReviewDetails(e.target.value)} />
+                <textarea
+                  value={reviewDetails}
+                  onChange={(e) => setReviewDetails(e.target.value)}
+                />
                 <br />
                 <br />
-
                 <p>Select a rating star</p>
                 <Select
                   options={rating}
@@ -109,18 +168,7 @@ const Detail = () => {
               </div>
               <hr />
               <div className="frame-small-footer">
-                <p
-                  onClick={() =>
-                    console.log(
-                      "title:" +
-                        reviewTitle +
-                        ";details:" +
-                        reviewDetails +
-                        ";start:" +
-                        star
-                    )
-                  }
-                >
+                <p className="btn-post" onClick={() => postReview()}>
                   Submit Review
                 </p>
               </div>
