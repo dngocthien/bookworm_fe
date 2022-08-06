@@ -38,19 +38,6 @@ const Shop = () => {
     { label: "Show 25", value: 25 },
   ];
 
-  let items = [];
-  for (let number = 0; number <= totalPage; number++) {
-    items.push(
-      <Pagination.Item
-        key={number}
-        active={number === page}
-        onClick={() => setPage(number)}
-      >
-        {number + 1}
-      </Pagination.Item>
-    );
-  }
-
   useEffect(() => {
     fetch(DB_URL + "categories")
       .then((res) => res.json())
@@ -79,11 +66,25 @@ const Shop = () => {
     fetch(DB_URL + url)
       .then((res) => res.json())
       .then((result) => {
+        console.log(result);
         setBooks(result.books);
         setTotalPage(result.totalPage);
         setTotalBook(result.totalBook);
       });
   }, [filterId, sort, show, page]);
+
+  let items = [];
+  for (let number = 0; number <= totalPage; number++) {
+    items.push(
+      <Pagination.Item
+        key={number}
+        active={number === page}
+        onClick={() => setPage(number)}
+      >
+        {number + 1}
+      </Pagination.Item>
+    );
+  }
 
   return (
     <div className="outlet">
@@ -182,11 +183,15 @@ const Shop = () => {
             <Pagination>
               <Pagination.Prev
                 onClick={() => setPage(page > 0 ? page - 1 : page)}
-              />
+              >
+                Previous
+              </Pagination.Prev>
               {items}
               <Pagination.Next
                 onClick={() => setPage(page < totalPage ? page + 1 : page)}
-              />
+              >
+                Next
+              </Pagination.Next>
             </Pagination>
           </div>
         </div>

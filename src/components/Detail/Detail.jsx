@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import { Pagination } from "react-bootstrap";
 import Select from "react-select";
 import { DB_URL } from "../../constants";
 import "./Detail.css";
@@ -13,16 +14,29 @@ const Detail = () => {
   const [reviewPage, setReviewPage] = useState(null);
   const [page, setPage] = useState(0);
   const [show, setShow] = useState(5);
+  const [star, setStar] = useState(0);
+  const [sort, setSort] = useState("ASC");
+  const [totalPage, setTotalPage] = useState(1);
 
   const [reviewTitle, setReviewTitle] = useState("");
   const [reviewDetails, setReviewDetails] = useState("");
-  const [star, setStar] = useState(1);
+  const [ratingStar, setRatingStar] = useState(1);
   const rating = [
     { label: "1 Star", value: 1 },
     { label: "2 Star", value: 2 },
     { label: "3 Star", value: 3 },
     { label: "4 Star", value: 4 },
     { label: "5 Star", value: 5 },
+  ];
+  const reviewBy = [
+    { label: "Sort by date: newest to oldest", value: "DESC" },
+    { label: "Sort by date: oldest to newest", value: "ASC" },
+  ];
+  const shows = [
+    { label: "Show 5", value: 5 },
+    { label: "Show 15", value: 15 },
+    { label: "Show 20", value: 20 },
+    { label: "Show 25", value: 25 },
   ];
 
   useEffect(() => {
@@ -32,14 +46,37 @@ const Detail = () => {
         setBook(result);
       });
 
-    let url = "reviews?id=" + id + "&page=" + page + "&show=" + show;
+    let url =
+      "reviews?id=" +
+      id +
+      "&page=" +
+      page +
+      "&show=" +
+      show +
+      "&star=" +
+      star +
+      "&sort=" +
+      sort;
     fetch(DB_URL + url)
       .then((res) => res.json())
       .then((result) => {
         setReviewPage(result);
-        console.log(result);
+        setTotalPage(result.totalPage);
       });
-  }, []);
+  }, [page, show, star, sort]);
+
+  let items = [];
+  for (let number = 0; number <= totalPage; number++) {
+    items.push(
+      <Pagination.Item
+        key={number}
+        active={number === page}
+        onClick={() => setPage(number)}
+      >
+        {number + 1}
+      </Pagination.Item>
+    );
+  }
 
   const postReview = () => {
     const current = new Date();
@@ -49,7 +86,7 @@ const Detail = () => {
       reviewTitle: reviewTitle,
       reviewDetails: reviewDetails,
       reviewDate: current,
-      ratingStart: star,
+      ratingStar: ratingStar,
     };
     fetch(DB_URL + "reviews", {
       method: "POST",
@@ -121,20 +158,74 @@ const Detail = () => {
               {reviewPage != null && reviewPage.reviews.length > 0 ? (
                 <div>
                   <h3>{reviewPage.star} Star</h3>
-                  <p>
-                    5 star ({reviewPage.five}) | 4 star ({reviewPage.four}) | 3
-                    star ({reviewPage.three}) | 2 star ({reviewPage.two}) | 1
-                    star ({reviewPage.one})
+                  <p className="txt-small">
+                    <u onClick={() => setStar(0)}>({reviewPage.totalReview})</u>{" "}
+                    |{" "}
+                    <u onClick={() => reviewPage.five > 0 && setStar(5)}>
+                      5 star ({reviewPage.five})
+                    </u>{" "}
+                    |{" "}
+                    <u onClick={() => reviewPage.four > 0 && setStar(4)}>
+                      4 star ({reviewPage.four})
+                    </u>{" "}
+                    |{" "}
+                    <u onClick={() => reviewPage.three > 0 && setStar(3)}>
+                      3 star ({reviewPage.three})
+                    </u>{" "}
+                    |{" "}
+                    <u onClick={() => reviewPage.two > 0 && setStar(2)}>
+                      2 star ({reviewPage.two})
+                    </u>{" "}
+                    |{" "}
+                    <u onClick={() => reviewPage.one > 0 && setStar(1)}>
+                      1 star ({reviewPage.one})
+                    </u>
                   </p>
-                  <p>
-                    Showing {page * show + 1}-
-                    {page * show + reviewPage.reviews.length} of{" "}
-                    {reviewPage.totalReview}{" "}
-                  </p>
+                  <div className="frame-space">
+                    <p>
+                      Showing {page * show + 1}-
+                      {page * show + reviewPage.reviews.length} of{" "}
+                      {reviewPage.totalReview}{" "}
+                    </p>
+                    <div className="frame-start">
+                      <Select
+                        className="select"
+                        options={reviewBy}
+                        placeholder="Sort by date"
+                        onChange={(e) => setSort(e.value)}
+                      />
+                      <Select
+                        className="select"
+                        options={shows}
+                        placeholder="Show 5"
+                        onChange={(e) => (setShow(e.value), setPage(0))}
+                      />
+                    </div>
+                  </div>
+                  <br />
 
                   {reviewPage.reviews.map((r, index) => {
                     return <Review key={index} review={r} />;
                   })}
+                  <br />
+
+                  <div className="frame-center">
+                    <Pagination>
+                      <Pagination.Prev
+                        onClick={() => setPage(page > 0 ? page - 1 : page)}
+                      >
+                        Previous
+                      </Pagination.Prev>
+                      {items}
+                      <Pagination.Next
+                        onClick={() =>
+                          setPage(page < totalPage ? page + 1 : page)
+                        }
+                      >
+                        Next
+                      </Pagination.Next>
+                    </Pagination>
+                  </div>
                 </div>
               ) : (
                 <p>No review available.</p>
@@ -163,8 +254,8 @@ const Detail = () => {
                 <p>Select a rating star</p>
                 <Select
                   options={rating}
-                  onChange={(e) => setStar(e.value)}
-                ></Select>
+                  onChange={(e) => setRatingStar(e.value)}
+                />
               </div>
               <hr />
               <div className="frame-small-footer">
