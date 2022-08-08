@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Pagination } from "react-bootstrap";
 import Select from "react-select";
-import Book from "../Book/Book";
+import Book from "../Modules/Book";
 import { DB_URL } from "../../constants";
 
 const Shop = () => {

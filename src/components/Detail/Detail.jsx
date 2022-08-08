@@ -4,7 +4,7 @@ import { Pagination } from "react-bootstrap";
 import Select from "react-select";
 import { DB_URL } from "../../constants";
 import "./Detail.css";
-import Review from "../Book/Review";
+import Review from "../Modules/Review";
 
 const Detail = () => {
   let { id } = useParams();
@@ -15,7 +15,7 @@ const Detail = () => {
   const [page, setPage] = useState(0);
   const [show, setShow] = useState(5);
   const [star, setStar] = useState(0);
-  const [sort, setSort] = useState("ASC");
+  const [sort, setSort] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
 
   const [reviewTitle, setReviewTitle] = useState("");
@@ -29,8 +29,8 @@ const Detail = () => {
     { label: "5 Star", value: 5 },
   ];
   const reviewBy = [
-    { label: "Sort by date: newest to oldest", value: "DESC" },
-    { label: "Sort by date: oldest to newest", value: "ASC" },
+    { label: "Sort by date: newest to oldest", value: 1 },
+    { label: "Sort by date: oldest to newest", value: 0 },
   ];
   const shows = [
     { label: "Show 5", value: 5 },
@@ -157,8 +157,8 @@ const Detail = () => {
               <h1>Customer Reviews</h1>
               {reviewPage != null && reviewPage.reviews.length > 0 ? (
                 <div>
-                  <h3>{reviewPage.star} Star</h3>
-                  <p className="txt-small">
+                  <h3>{reviewPage.star.toFixed(1)} Star</h3>
+                  <p className="txt-small" onClick={() => setPage(0)}>
                     <u onClick={() => setStar(0)}>({reviewPage.totalReview})</u>{" "}
                     |{" "}
                     <u onClick={() => reviewPage.five > 0 && setStar(5)}>
@@ -208,7 +208,6 @@ const Detail = () => {
                     return <Review key={index} review={r} />;
                   })}
                   <br />
-
                   <div className="frame-center">
                     <Pagination>
                       <Pagination.Prev

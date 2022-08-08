@@ -4,7 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { DB_URL } from "../../constants";
-import Book from "../Book/Book";
+import Book from "../Modules/Book";
 
 const Home = () => {
   const navigate = useNavigate();

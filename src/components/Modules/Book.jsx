@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import model from "../../assets/model.jpeg";
-import "./Book.css";
+import "./Module.css";
 
 const Book = ({ book }) => {
   return (

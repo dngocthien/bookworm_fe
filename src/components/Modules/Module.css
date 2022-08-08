@@ -25,3 +25,10 @@
     padding: 1rem 1rem;
     margin: 0;
 }
+
+.review h1{
+    margin-bottom: 1rem;
+}
+.review-time{
+    padding-top: 0.5rem;
+}
