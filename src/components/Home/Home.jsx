@@ -46,7 +46,7 @@ const Home = () => {
     ],
   };
   useEffect(() => {
-    fetch(DB_URL + "books?page=1&show=8&filter=0&type=0")
+    fetch(DB_URL + "books?page=0&show=8&filter=0&type=0&sort=0")
       .then((res) => res.json())
       .then((result) => {
         setBooks(result.books);

@@ -12,7 +12,7 @@ const Shop = () => {
   const [filterName, setFilterName] = useState("");
   const [filterId, setFilterId] = useState(0);
   const [filterType, setFilterType] = useState(0);
-  const [sort, setSort] = useState("");
+  const [sort, setSort] = useState(0);
   const [show, setShow] = useState(5);
   const [page, setPage] = useState(0);
   const [totalPage, setTotalPage] = useState(1);
@@ -59,10 +59,10 @@ const Shop = () => {
       "&filter=" +
       filterId +
       "&type=" +
-      filterType;
-    if (sort != "") {
-      url = url + "&sort=" + sort;
-    }
+      filterType +
+      "&sort=" +
+      sort;
+
     fetch(DB_URL + url)
       .then((res) => res.json())
       .then((result) => {

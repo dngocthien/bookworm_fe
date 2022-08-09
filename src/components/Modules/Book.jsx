@@ -4,6 +4,7 @@ import model from "../../assets/model.jpeg";
 import "./Module.css";
 
 const Book = ({ book }) => {
+  console.log(book);
   return (
     <Link className="link" to={`/shop/${book.id}`} book={book}>
       <div className="book">
@@ -15,7 +16,14 @@ const Book = ({ book }) => {
         </div>
 
         <p className="book-price">
-          <b>${book.bookPrice}</b>
+          {book.discount != null ? (
+            <>
+              <del>${book.bookPrice}</del>
+              <b> ${book.discount.discountPrice}</b>
+            </>
+          ) : (
+            <b>${book.bookPrice} </b>
+          )}
         </p>
       </div>
     </Link>

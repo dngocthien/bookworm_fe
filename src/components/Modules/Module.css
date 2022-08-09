@@ -25,6 +25,9 @@
     padding: 1rem 1rem;
     margin: 0;
 }
+.book-price del{
+    color: var(--grey);
+}
 
 .review h1{
     margin-bottom: 1rem;
