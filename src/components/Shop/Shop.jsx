@@ -66,10 +66,11 @@ const Shop = () => {
     fetch(DB_URL + url)
       .then((res) => res.json())
       .then((result) => {
-        console.log(result);
-        setBooks(result.books);
-        setTotalPage(result.totalPage);
-        setTotalBook(result.totalBook);
+        if (result.books != undefined) {
+          setBooks(result.books);
+          setTotalPage(result.totalPage);
+          setTotalBook(result.totalBook);
+        }
       });
   }, [filterId, sort, show, page]);
 
@@ -144,56 +145,58 @@ const Shop = () => {
         </div>
 
         <div className="main">
-          <div className="frame-space">
-            <p>
-              Showing {page * show + 1}-{page * show + books.length} of{" "}
-              {totalBook}
-            </p>
-            <div className="frame-start">
-              <Select
-                className="select"
-                options={sorts}
-                placeholder="Sort by on sale"
-                // onChange={(e) => changeBrand(e)}
-              />
-              <Select
-                className="select"
-                options={shows}
-                placeholder="Show 5"
-                onChange={(e) => (setShow(e.value), setPage(0))}
-              />
-            </div>
-          </div>
+          {books.length > 0 ? (
+            <>
+              <div className="frame-space">
+                <p>
+                  Showing {page * show + 1}-{page * show + books.length} of{" "}
+                  {totalBook}
+                </p>
+                <div className="frame-start">
+                  <Select
+                    className="select"
+                    options={sorts}
+                    placeholder="Sort by on sale"
+                    onChange={(e) => setSort(e.value)}
+                  />
+                  <Select
+                    className="select"
+                    options={shows}
+                    placeholder="Show 5"
+                    onChange={(e) => (setShow(e.value), setPage(0))}
+                  />
+                </div>
+              </div>
 
-          <br />
+              <br />
 
-          <div className="content">
-            {books.length > 0 ? (
-              books.slice(0, show).map((b, index) => {
-                return <Book key={index} book={b} />;
-              })
-            ) : (
-              <p>No books available.</p>
-            )}
-          </div>
+              <div className="content">
+                {books.slice(0, show).map((b, index) => {
+                  return <Book key={index} book={b} />;
+                })}
+              </div>
 
-          <br />
+              <br />
 
-          <div className="frame-center">
-            <Pagination>
-              <Pagination.Prev
-                onClick={() => setPage(page > 0 ? page - 1 : page)}
-              >
-                Previous
-              </Pagination.Prev>
-              {items}
-              <Pagination.Next
-                onClick={() => setPage(page < totalPage ? page + 1 : page)}
-              >
-                Next
-              </Pagination.Next>
-            </Pagination>
-          </div>
+              <div className="frame-center">
+                <Pagination>
+                  <Pagination.Prev
+                    onClick={() => setPage(page > 0 ? page - 1 : page)}
+                  >
+                    Previous
+                  </Pagination.Prev>
+                  {items}
+                  <Pagination.Next
+                    onClick={() => setPage(page < totalPage ? page + 1 : page)}
+                  >
+                    Next
+                  </Pagination.Next>
+                </Pagination>
+              </div>
+            </>
+          ) : (
+            <p>No book available!</p>
+          )}
         </div>
       </div>
     </div>

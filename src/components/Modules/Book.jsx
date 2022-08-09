@@ -4,7 +4,6 @@ import model from "../../assets/model.jpeg";
 import "./Module.css";
 
 const Book = ({ book }) => {
-  console.log(book);
   return (
     <Link className="link" to={`/shop/${book.id}`} book={book}>
       <div className="book">

@@ -35,6 +35,9 @@
 .link :hover{
     color: var(--grey);
 }
+.link-current{
+    text-decoration: underline;
+}
 .outlet{
     padding: 1rem 4rem;
     min-height: 80vh;
