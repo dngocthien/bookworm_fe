@@ -9,8 +9,8 @@ import Book from "../Modules/Book";
 const Home = () => {
   const navigate = useNavigate();
   const [books, setBooks] = useState([]);
+  const [sort, setSort] = useState(1);
   const [onsale, setOnsale] = useState([]);
-  const [recomended, setRecomended] = useState(true);
   var settings2 = {
     dots: true,
     infinite: false,
@@ -50,11 +50,19 @@ const Home = () => {
       .then((res) => res.json())
       .then((result) => {
         if (result.books != undefined) {
-          setBooks(result.books);
           setOnsale(result.books);
         }
       });
-  }, []);
+  }, [sort]);
+  useEffect(() => {
+    fetch(DB_URL + "books?page=0&show=8&filter=0&type=0&sort=" + sort)
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.books != undefined) {
+          setBooks(result.books);
+        }
+      });
+  }, [sort]);
   return (
     <div className="outlet">
       <br />
@@ -84,14 +92,14 @@ const Home = () => {
         <br />
         <div>
           <button
-            className={recomended ? "btn-light" : "btn-white"}
-            onClick={() => setRecomended(true)}
+            className={sort == 1 ? "btn-light" : "btn-white"}
+            onClick={() => setSort(1)}
           >
             Recomended
           </button>
           <button
-            className={recomended ? "btn-white" : "btn-light"}
-            onClick={() => setRecomended(false)}
+            className={sort == 2 ? "btn-light" : "btn-white"}
+            onClick={() => setSort(2)}
           >
             Popular
           </button>

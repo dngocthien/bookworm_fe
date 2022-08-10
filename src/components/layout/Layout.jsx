@@ -6,7 +6,6 @@ import "./Layout.css";
 
 const Layout = () => {
   const location = useLocation();
-  console.log(location.pathname);
   return (
     <div className="layout">
       <div className="navbar">

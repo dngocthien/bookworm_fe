@@ -26,7 +26,7 @@ const Shop = () => {
     { label: "5 Star", value: 5 },
   ];
   const sorts = [
-    { label: "Sort by on sale", value: 1 },
+    { label: "Sort by on sale", value: 0 },
     { label: "Sort by popularity", value: 2 },
     { label: "Sort by price: low to high", value: 3 },
     { label: "Sort by price: high to low", value: 4 },
