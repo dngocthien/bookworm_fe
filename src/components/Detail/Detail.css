@@ -1,26 +1,19 @@
-.frame-big{
-    display: flex;
-    width: 65%;
-    border: 1px solid var(--light);
-    border-radius: 10px;
+.details .frame-big{
     margin-right: 2rem;
     padding-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
 }
-.frame-big img{
+
+.details .frame-big img{
     width: 250px;
     border-start-start-radius: 10px;
 }
 
-.frame-big h3{
+.details .frame-big h3{
     margin: 1rem 0;
 }
 
-.frame-small{
-    width: 35%;
-    border: 1px solid var(--light);
-    border-radius: 10px;
-    /* height:18rem; */
-}
 .frame-small-head{
     background-color: var(--light2);
     padding: 1rem 2rem;
@@ -99,7 +92,7 @@
 }
 
 @media screen and (max-width:900px) {
-    .shop .frame-flex{
+    .details .frame-flex{
         display: block;
         margin-bottom: 1rem;
     }

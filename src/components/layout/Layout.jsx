@@ -51,7 +51,7 @@ const Layout = () => {
                   ? "link link-current"
                   : "link"
               }
-              to="/"
+              to="/cart"
             >
               Cart
             </Link>

@@ -6,6 +6,7 @@ import Home from "./components/Home/Home";
 import Shop from "./components/Shop/Shop";
 import Detail from "./components/Detail/Detail";
 import About from "./components/About/About";
+import Cart from "./components/Cart/Cart";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/shop" element={<Shop />} />
           <Route path="/shop/:id" element={<Detail />} />
           <Route path="/about" element={<About />} />
+          <Route path="/cart" element={<Cart />} />
         </Route>
       </Routes>
     </BrowserRouter>

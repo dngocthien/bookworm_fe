@@ -1,5 +1,6 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Pagination } from "react-bootstrap";
 import Select from "react-select";
 import { DB_URL } from "../../constants";
@@ -7,6 +8,8 @@ import "./Detail.css";
 import Review from "../Modules/Review";
 
 const Detail = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   let { id } = useParams();
   const [book, setBook] = useState(null);
   const [quantity, setQuantity] = useState(1);
@@ -78,6 +81,20 @@ const Detail = () => {
     );
   }
 
+  const cart = useSelector((state) => state.cart) ?? [];
+  const addToCart = () => {
+    let existing = cart.slice();
+    let update = [
+      ...existing,
+      {
+        book: book,
+        quantity: quantity,
+      },
+    ];
+    dispatch({ type: "PUT_CART", cart: update });
+    navigate("/cart");
+  };
+
   const postReview = () => {
     const current = new Date();
     const dto = {
@@ -101,19 +118,20 @@ const Detail = () => {
     );
   };
   return (
-    <div className="outlet shop">
+    <div className="outlet details">
       {book != null ? (
         <>
           <h1>{book.category.categoryName}</h1>
           <hr />
 
-          <div className="frame-flex details">
-            <div className="frame-big">
-              <div className="column-left text-right">
+          <div className="frame-flex ">
+            <div className="frame-big column-border">
+              {/* <div className="column-border"> */}
+              <div className="padding-right text-right">
                 <img src={book.bookCoverPhoto} />
                 <p>By (author) {book.author.authorName}</p>
               </div>
-              <div className="column-right">
+              <div className="padding-right">
                 <h3>{book.bookTitle}</h3>
                 <p>{book.bookSummary}</p>
               </div>
@@ -121,39 +139,51 @@ const Detail = () => {
             <br />
 
             <div className="frame-small">
-              <div className="frame-small-head">
-                <p>${book.bookPrice}</p>
-              </div>
-              <div className="frame-small-body">
-                <p>Quantity</p>
-                <div className="quantity">
-                  <p
-                    className="quantity-volumn"
-                    onClick={() =>
-                      setQuantity(quantity > 1 ? quantity - 1 : quantity)
-                    }
-                  >
-                    -
-                  </p>
-                  <p>{quantity}</p>
-                  <p
-                    className="quantity-volumn text-right"
-                    onClick={() =>
-                      setQuantity(quantity < 8 ? quantity + 1 : quantity)
-                    }
-                  >
-                    +
-                  </p>
+              <div className="column-border">
+                <div className="frame-small-head">
+                  {book.discount != null ? (
+                    <>
+                      <del>${book.bookPrice}</del>
+                      <b> ${book.discount.discountPrice}</b>
+                    </>
+                  ) : (
+                    <b>${book.bookPrice} </b>
+                  )}
                 </div>
+                <div className="frame-small-body">
+                  <p>Quantity</p>
+                  <div className="quantity">
+                    <p
+                      className="quantity-volumn"
+                      onClick={() =>
+                        setQuantity(quantity > 1 ? quantity - 1 : quantity)
+                      }
+                    >
+                      -
+                    </p>
+                    <p>{quantity}</p>
+                    <p
+                      className="quantity-volumn text-right"
+                      onClick={() =>
+                        setQuantity(quantity < 8 ? quantity + 1 : quantity)
+                      }
+                    >
+                      +
+                    </p>
+                  </div>
 
-                <div className="btn-post">Add to cart</div>
+                  <div className="btn-post" onClick={() => addToCart()}>
+                    Add to cart
+                  </div>
+                </div>
               </div>
             </div>
           </div>
           <br />
 
           <div className="frame-flex reviews">
-            <div className="frame-big">
+            {/* <div className="frame-big"> */}
+            <div className="frame-big frame-flex column-border">
               <h1>Customer Reviews</h1>
               {reviewPage != null && reviewPage.reviews.length > 0 ? (
                 <div>
@@ -233,34 +263,36 @@ const Detail = () => {
             <br />
 
             <div className="frame-small">
-              <h3>Write a review</h3>
-              <hr />
-              <div className="frame-small-body">
-                <p>Add a title</p>
-                <input
-                  value={reviewTitle}
-                  onChange={(e) => setReviewTitle(e.target.value)}
-                />
-                <br />
-                <br />
-                <p>Details please! Your review helps other shopers.</p>
-                <textarea
-                  value={reviewDetails}
-                  onChange={(e) => setReviewDetails(e.target.value)}
-                />
-                <br />
-                <br />
-                <p>Select a rating star</p>
-                <Select
-                  options={rating}
-                  onChange={(e) => setRatingStar(e.value)}
-                />
-              </div>
-              <hr />
-              <div className="frame-small-footer">
-                <p className="btn-post" onClick={() => postReview()}>
-                  Submit Review
-                </p>
+              <div className="column-border">
+                <h3>Write a review</h3>
+                <hr />
+                <div className="frame-small-body">
+                  <p>Add a title</p>
+                  <input
+                    value={reviewTitle}
+                    onChange={(e) => setReviewTitle(e.target.value)}
+                  />
+                  <br />
+                  <br />
+                  <p>Details please! Your review helps other shopers.</p>
+                  <textarea
+                    value={reviewDetails}
+                    onChange={(e) => setReviewDetails(e.target.value)}
+                  />
+                  <br />
+                  <br />
+                  <p>Select a rating star</p>
+                  <Select
+                    options={rating}
+                    onChange={(e) => setRatingStar(e.value)}
+                  />
+                </div>
+                <hr />
+                <div className="frame-small-footer">
+                  <p className="btn-post" onClick={() => postReview()}>
+                    Submit Review
+                  </p>
+                </div>
               </div>
             </div>
           </div>

@@ -1,0 +1,31 @@
+.cart .frame-big{
+    margin-right: 2rem;
+}
+.cart .frame-small{
+    text-align: center;
+}
+.cart .column-border{
+    padding: 1rem;
+}
+
+.cart table{
+    width: 100%;
+}
+.cart th, td{
+    padding: 1rem;
+}
+.cart tbody tr{
+    border-top: 1px solid var(--light);
+}
+.cart img{
+    height: 120px;
+}
+.cart .frame-small h3{
+    margin-bottom: 1rem;
+}
+
+@media screen and (max-width: 990px) {
+    .cart .frame-flex{
+        /* display: block; */
+    }
+}
