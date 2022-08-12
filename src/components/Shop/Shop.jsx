@@ -97,7 +97,7 @@ const Shop = () => {
       <hr />
       <br />
 
-      <div className="frame-start">
+      <div className="frame-flex">
         <div className="sidebar">
           <b>Filter By</b>
           <div className="border">

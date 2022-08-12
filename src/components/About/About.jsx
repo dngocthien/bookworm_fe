@@ -20,7 +20,7 @@ const About = () => {
           </p>
           <br />
           <div className="frame-flex">
-            <div className="column column-left">
+            <div className="column margin-right">
               <h1>Our Story</h1>
               <br />
               <p>

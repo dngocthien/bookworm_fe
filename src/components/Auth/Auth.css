@@ -1,0 +1,78 @@
+.login-background{
+    background-color: var(--grey);
+    opacity: 0.3;
+    position: fixed;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.login{
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    background-color: var(--white);
+    border: 1px solid var(--grey);
+    border-radius: 15px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    padding: 1rem;
+    align-items: center;
+    width: 25rem;
+    height: 23rem;
+}
+.signup{
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    background-color: var(--white);
+    border: 1px solid var(--grey);
+    border-radius: 15px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    padding: 1rem;
+    align-items: center;
+    width: 25rem;
+    height: 29rem;
+}
+.login input, .signup input{
+    line-height: 32px;
+    border: 1px solid var(--black);
+    border-radius: 30px;
+    padding: 0 1rem;
+    margin-top: 1rem;
+    width: 15rem;
+}
+.login img,.signup img{
+    height: 4rem;
+    margin: 2rem 0 1rem 0;
+}
+
+.btn-login{
+    background-color: var(--black);
+    color: var(--white);
+    border: 1px solid var(--white);
+    border-radius: 15px;
+    padding: 0.5rem 2rem;
+    margin-top: 2rem;
+    width: 10rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+.btn-login:hover{
+    background-color: var(--yellow);
+    color: var(--black);
+}

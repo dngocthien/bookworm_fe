@@ -24,8 +24,8 @@ const Review = ({ review }) => {
   };
   return (
     <div>
-      <div className="frame-start review">
-        <h1>{review.reviewTitle}</h1>
+      <div className="frame-start-baseline review">
+        <h1>{review.reviewTitle}&nbsp;</h1>
         <p>| {review.ratingStar} stars</p>
       </div>
       <p>{review.reviewDetails}</p>

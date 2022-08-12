@@ -1,11 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import logo from "../../assets/logo.png";
+import Login from "../Auth/Login";
 import "./Layout.css";
 
 const Layout = () => {
   const location = useLocation();
+  const cart = useSelector((state) => state.cart) ?? [];
+  const [login, setLogin] = useState(false);
+
+  const count = () => {
+    let sum = 0;
+    cart.map((b) => {
+      sum += b.quantity;
+    });
+    return sum;
+  };
   return (
     <div className="layout">
       <div className="navbar">
@@ -53,20 +65,11 @@ const Layout = () => {
               }
               to="/cart"
             >
-              Cart
+              Cart ({count()})
             </Link>
           </p>
-          <p>
-            <Link
-              className={
-                location.pathname.includes("/login")
-                  ? "link link-current"
-                  : "link"
-              }
-              to="/"
-            >
-              Sign In
-            </Link>
+          <p className="link" onClick={() => setLogin(true)}>
+            Sign In
           </p>
         </div>
       </div>
@@ -82,6 +85,8 @@ const Layout = () => {
           <p>Phone: 0347145232</p>
         </div>
       </div>
+
+      {login ? <Login /> : <></>}
     </div>
   );
 };
