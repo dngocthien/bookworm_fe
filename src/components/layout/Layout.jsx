@@ -1,15 +1,23 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import logo from "../../assets/logo.png";
-import Login from "../Auth/Login";
+import Auth from "../Auth/Auth";
 import "./Layout.css";
 
 const Layout = () => {
+  const dispatch = useDispatch();
   const location = useLocation();
-  const cart = useSelector((state) => state.cart) ?? [];
-  const [login, setLogin] = useState(false);
+  const cart = useSelector((state) => state.cart ?? []);
+  const auth = useSelector((state) => state.auth);
+  const username = useSelector((state) => state.email);
+  const [btnLogout, setBtnLogout] = useState(false);
+
+  const logout = () => {
+    dispatch({ type: "MAIL", email: null });
+    setBtnLogout(false);
+  };
 
   const count = () => {
     let sum = 0;
@@ -26,17 +34,12 @@ const Layout = () => {
           <p>BOOKWORM</p>
         </div>
         <div className="navbar-links">
-          <p>
-            <Link
-              className={
-                location.pathname == "/" ? "link link-current" : "link"
-              }
-              to="/"
-            >
-              Home
-            </Link>
-          </p>
-          <p></p>
+          <Link
+            className={location.pathname == "/" ? "link link-current" : "link"}
+            to="/"
+          >
+            Home
+          </Link>
           <Link
             className={
               location.pathname.includes("/shop") ? "link link-current" : "link"
@@ -45,7 +48,6 @@ const Layout = () => {
           >
             Shop
           </Link>
-          <p></p>
           <Link
             className={
               location.pathname.includes("/about")
@@ -56,21 +58,46 @@ const Layout = () => {
           >
             About
           </Link>
-          <p>
-            <Link
-              className={
-                location.pathname.includes("/cart")
-                  ? "link link-current"
-                  : "link"
-              }
-              to="/cart"
+          <Link
+            className={
+              location.pathname.includes("/cart") ? "link link-current" : "link"
+            }
+            to="/cart"
+          >
+            Cart ({count()})
+          </Link>
+
+          {username != null ? (
+            <div>
+              <p
+                onClick={() =>
+                  btnLogout == false ? setBtnLogout(true) : setBtnLogout(false)
+                }
+                className="link"
+              >
+                {username} &#9662;
+              </p>
+              {btnLogout ? (
+                <button
+                  className="btn-logout btn-border"
+                  onClick={() => {
+                    logout();
+                  }}
+                >
+                  Sign Out
+                </button>
+              ) : (
+                <></>
+              )}
+            </div>
+          ) : (
+            <p
+              className="link"
+              onClick={() => dispatch({ type: "AUTH", auth: true })}
             >
-              Cart ({count()})
-            </Link>
-          </p>
-          <p className="link" onClick={() => setLogin(true)}>
-            Sign In
-          </p>
+              Sign In
+            </p>
+          )}
         </div>
       </div>
 
@@ -86,7 +113,7 @@ const Layout = () => {
         </div>
       </div>
 
-      {login ? <Login /> : <></>}
+      {auth ? <Auth /> : <></>}
     </div>
   );
 };

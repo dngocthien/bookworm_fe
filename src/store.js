@@ -1,13 +1,13 @@
 import { createStore } from "redux";
 
-const reducer = (state = { access_token: "", cart: [] }, action) => {
+const reducer = (state = { email: null, auth: false, cart: [] }, action) => {
   switch (action.type) {
-    case "LOGIN":
-      return { access_token: action.token };
-    case "LOGOUT":
-      return { access_token: "" };
+    case "MAIL":
+      return { auth: state.auth, email: action.email, cart: state.cart };
+    case "AUTH": //is open login/sign in pop-up
+      return { auth: action.auth, email: state.email, cart: state.cart };
     case "PUT_CART":
-      return { cart: action.cart };
+      return { auth: state.auth, email: state.email, cart: action.cart };
   }
   return state;
 };

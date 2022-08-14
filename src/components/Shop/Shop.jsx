@@ -89,8 +89,8 @@ const Shop = () => {
 
   return (
     <div className="outlet">
-      <div className="frame-start">
-        <h1>Books</h1>
+      <div className="frame-start-baseline">
+        <h1>Books &nbsp;</h1>
         {filterName != "" ? <p>(Filter by {filterName})</p> : <></>}
       </div>
 

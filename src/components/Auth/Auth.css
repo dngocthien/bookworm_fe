@@ -13,7 +13,7 @@
     flex-direction: column;
     position: fixed;
     background-color: var(--white);
-    border: 1px solid var(--grey);
+    box-shadow: 2px 3px 2px var(--light);
     border-radius: 15px;
     top: 0;
     left: 0;
@@ -33,7 +33,7 @@
     flex-direction: column;
     position: fixed;
     background-color: var(--white);
-    border: 1px solid var(--grey);
+    box-shadow: 2px 3px 2px var(--light);
     border-radius: 15px;
     top: 0;
     left: 0;
@@ -46,8 +46,9 @@
     padding: 1rem;
     align-items: center;
     width: 25rem;
-    height: 29rem;
+    height: 32rem;
 }
+
 .login input, .signup input{
     line-height: 32px;
     border: 1px solid var(--black);
@@ -75,4 +76,15 @@
 .btn-login:hover{
     background-color: var(--yellow);
     color: var(--black);
+}
+.btn-cancel{
+    position: fixed;
+    background-color: var(--white);
+    box-shadow: 2px 3px 2px var(--black);
+    border: none;
+    border-radius: 30px;
+    right: 1rem;
+    top: 1rem;
+    width: 2rem;
+    height: 2rem;
 }
