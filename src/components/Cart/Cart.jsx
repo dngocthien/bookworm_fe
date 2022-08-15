@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import "./Cart.css";
+import { DB_URL } from "../../constants";
 
 const Cart = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const userr = useSelector((state) => state.userr);
   const [cart, setCart] = useState(useSelector((state) => state.cart) ?? []);
 
   useEffect(() => {
@@ -32,25 +36,49 @@ const Cart = () => {
     return cartTotals;
   };
 
-  const updateCart = (name, price, quantity) => {
-    let existing = cart.slice();
-    let update = [...existing, [name, price, quantity]];
-    return setCart(update);
-  };
-
-  const remove = (index) => {
-    let existing = cart.slice();
-    existing.splice(index, 1);
-    return setCart(existing);
-  };
-
-  function updateQuantity(index, val) {
+  const updateQuantity = (index, val) => {
     let existing = cart.slice();
     let newVal = existing[index].quantity + val;
     if (newVal > 0 && newVal <= 8) existing[index].quantity = newVal;
     if (newVal < 1) existing.splice(index, 1);
     setCart(existing);
-  }
+  };
+
+  const postOrder = () => {
+    if (userr == null) {
+      return dispatch({ type: "AUTH", auth: true });
+    }
+
+    let orderItems = [];
+    cart.map((b, index) => {
+      orderItems = [
+        ...orderItems,
+        {
+          bookId: b.book.id,
+          quantity: b.quantity,
+          price:
+            b.book.discount != null
+              ? b.book.discount.discountPrice
+              : b.book.bookPrice,
+        },
+      ];
+    });
+    let order = {
+      userId: userr.id,
+      orderDate: new Date(),
+      orderAmount: count(),
+      orderItems: orderItems,
+    };
+    console.log(order);
+    fetch(DB_URL + "orders", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(order),
+    }).then(() => {
+      alert("Your order was sent successfully!");
+      // navigate("/");
+    });
+  };
   return (
     <div className="outlet cart">
       <h1>Your cart: {count()} items</h1>
@@ -131,7 +159,9 @@ const Cart = () => {
                 </thead>
               </table>
               <h3>${getCartTotals()}</h3>
-              <p className="btn-post">Place order</p>
+              <p className="btn-post" onClick={() => postOrder()}>
+                Place order
+              </p>
             </div>
           </div>
         </div>

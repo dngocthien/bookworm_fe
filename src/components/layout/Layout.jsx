@@ -11,11 +11,11 @@ const Layout = () => {
   const location = useLocation();
   const cart = useSelector((state) => state.cart ?? []);
   const auth = useSelector((state) => state.auth);
-  const username = useSelector((state) => state.email);
+  const userr = useSelector((state) => state.userr);
   const [btnLogout, setBtnLogout] = useState(false);
 
   const logout = () => {
-    dispatch({ type: "MAIL", email: null });
+    dispatch({ type: "USERR", email: null });
     setBtnLogout(false);
   };
 
@@ -67,7 +67,7 @@ const Layout = () => {
             Cart ({count()})
           </Link>
 
-          {username != null ? (
+          {userr != null ? (
             <div>
               <p
                 onClick={() =>
@@ -75,7 +75,7 @@ const Layout = () => {
                 }
                 className="link"
               >
-                {username} &#9662;
+                {userr.firstName} {userr.lastName} &#9662;
               </p>
               {btnLogout ? (
                 <button

@@ -40,6 +40,20 @@ const Auth = () => {
     });
   }
 
+  function getUserInfo(mail) {
+    fetch(DB_URL + "users/email/" + mail, {
+      method: "get",
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+      })
+      .then((result) => {
+        dispatch({ type: "USERR", userr: result });
+      });
+  }
+
   function login() {
     const formData = new URLSearchParams();
     formData.append("email", email);
@@ -59,6 +73,7 @@ const Auth = () => {
       })
       .then((result) => {
         localStorage.setItem("access_token", result.access_token);
+        getUserInfo(result.email);
         dispatch({ type: "MAIL", email: result.email });
         dispatch({ type: "AUTH", auth: false });
       })
