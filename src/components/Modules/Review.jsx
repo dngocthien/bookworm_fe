@@ -19,7 +19,11 @@ const Review = ({ review }) => {
     ];
     const d = new Date(date);
     return (
-      monthNames[d.getMonth()] + " " + d.getDay() + ", " + (1900 + d.getYear())
+      monthNames[d.getMonth()] +
+      " " +
+      date.slice(8, 10) +
+      ", " +
+      date.slice(0, 4)
     );
   };
   return (

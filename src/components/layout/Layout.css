@@ -35,7 +35,7 @@
     text-decoration: inherit;
 }
 .link :hover{
-    color: var(--grey);
+    /* color: var(--grey); */
 }
 .link-current{
     text-decoration: underline;

@@ -74,10 +74,14 @@ const Cart = () => {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(order),
-    }).then(() => {
-      alert("Your order was sent successfully!");
-      // navigate("/");
-    });
+    })
+      .then(() => {
+        alert("Your order was sent successfully!");
+        dispatch({ type: "PUT_CART", cart: [] });
+      })
+      .then(() => {
+        navigate("/");
+      });
   };
   return (
     <div className="outlet cart">

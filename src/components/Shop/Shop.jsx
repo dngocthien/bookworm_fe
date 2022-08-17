@@ -101,7 +101,7 @@ const Shop = () => {
         <div className="sidebar">
           <b>Filter By</b>
           <div className="border">
-            <h4>Category</h4>
+            <h4>Categories</h4>
             {categories.map((c, index) => {
               return (
                 <p
@@ -136,12 +136,12 @@ const Shop = () => {
               );
             })}
           </div>
-          <div className="border">
+          {/* <div className="border">
             <h4>Rating Review</h4>
             {rating.map((r, index) => {
               return <p key={index}>{r.label}</p>;
             })}
-          </div>
+          </div> */}
         </div>
 
         <div className="main">

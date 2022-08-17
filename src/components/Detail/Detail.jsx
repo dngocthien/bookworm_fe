@@ -24,6 +24,7 @@ const Detail = () => {
   const [reviewTitle, setReviewTitle] = useState("");
   const [reviewDetails, setReviewDetails] = useState("");
   const [ratingStar, setRatingStar] = useState(1);
+  const [posted, setPosted] = useState(false);
   const rating = [
     { label: "1 Star", value: 1 },
     { label: "2 Star", value: 2 },
@@ -43,6 +44,23 @@ const Detail = () => {
   ];
 
   useEffect(() => {
+    updateBooks();
+  }, [page, show, star, sort]);
+
+  let items = [];
+  for (let number = 0; number <= totalPage; number++) {
+    items.push(
+      <Pagination.Item
+        key={number}
+        active={number === page}
+        onClick={() => setPage(number)}
+      >
+        {number + 1}
+      </Pagination.Item>
+    );
+  }
+
+  const updateBooks = () => {
     fetch(DB_URL + "books/id/" + id)
       .then((res) => res.json())
       .then((result) => {
@@ -66,20 +84,7 @@ const Detail = () => {
         setReviewPage(result);
         setTotalPage(result.totalPage);
       });
-  }, [page, show, star, sort]);
-
-  let items = [];
-  for (let number = 0; number <= totalPage; number++) {
-    items.push(
-      <Pagination.Item
-        key={number}
-        active={number === page}
-        onClick={() => setPage(number)}
-      >
-        {number + 1}
-      </Pagination.Item>
-    );
-  }
+  };
 
   const cart = useSelector((state) => state.cart) ?? [];
   const addToCart = () => {
@@ -109,13 +114,12 @@ const Detail = () => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(dto),
-    }).then(
-      () => (
-        setReviewTitle(""),
-        setReviewDetails(""),
-        alert("Your review was posted!")
-      )
-    );
+    }).then(() => {
+      setReviewTitle("");
+      setReviewDetails("");
+      updateBooks();
+      alert("Your review was posted!");
+    });
   };
   return (
     <div className="outlet details">
