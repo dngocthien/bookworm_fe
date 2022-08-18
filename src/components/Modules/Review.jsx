@@ -19,7 +19,7 @@ const Review = ({ review }) => {
     ];
     const d = new Date(date);
     return (
-      monthNames[d.getMonth()] +
+      monthNames[d.getMonth() - 1] +
       " " +
       date.slice(8, 10) +
       ", " +
